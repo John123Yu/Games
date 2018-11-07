@@ -1,7 +1,8 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
+import NicknameReducer from "./reducer_nickname";
 
 const rootReducer = combineReducers({
-  state: (state = {}) => state
+  nickname: NicknameReducer
 });
 
 export default rootReducer;
