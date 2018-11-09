@@ -1,9 +1,10 @@
-import { FETCH_MESSAGES } from "../actions/index";
+import { ADD_MESSAGE } from "../actions/index";
 
 export default function(state = [], action) {
   switch (action.type) {
-    case FETCH_MESSAGES
-      return [action.payload, ...state];
+    case ADD_MESSAGE:
+      //   console.log(action.payload);
+      return [...state, action.payload];
   }
   return state;
 }

@@ -1,0 +1,21 @@
+#chatpane-input {
+  margin-top: 1em;
+}
+#chat-message {
+  padding: 0px;
+  border: none;
+  padding-left: 1em;
+  margin-top: 0.75em;
+}
+#chat-message-p {
+  margin: 0px;
+}
+#chat-message-span {
+  font-size: 0.75em;
+}
+#chat-message-i {
+  margin-left: 0.5em;
+}
+#invisible-hr {
+  visibility: hidden;
+}
