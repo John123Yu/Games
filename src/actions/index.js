@@ -4,6 +4,7 @@ export const FETCH_NICKNAME = "FETCH_NICKNAME";
 export const ADD_MESSAGE = "ADD_MESSAGE";
 export const ADD_CARD = "ADD_CARD";
 export const ADD_CARD_DEALER = "ADD_CARD_DEALER";
+export const ADD_OPPS_CARD = "ADD_OPPS_CARD";
 
 export function fetchNickname(len) {
   let text = "";
@@ -33,5 +34,11 @@ export function addCardDealer(card) {
   return {
     type: ADD_CARD_DEALER,
     payload: card
+  };
+}
+export function addCardOpps(object) {
+  return {
+    type: ADD_OPPS_CARD,
+    payload: object
   };
 }

@@ -33,8 +33,9 @@
   padding: 0px;
   margin: 0px 5px 0px 0px;
 }
-.cardPaneOpps {
-  size: 0.75em;
+.cardPaneOpps,
+.cardOpps {
+  width: 60px;
 }
 #yourHand,
 #dealerHand {
