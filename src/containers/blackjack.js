@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addCard } from "../actions/index";
+import { addCard, addCardDealer } from "../actions/index";
 import Rx from "rx";
 import socket from "../util/socket-io";
 import moment from "moment";
+const images = "./src/static/images/cards-png/";
 
 class BlackJackPane extends Component {
   constructor(props) {
@@ -14,11 +15,6 @@ class BlackJackPane extends Component {
       socket.emit("joinBlackJack", {
         name: this.props.nickname
       });
-
-      //   socket.on("messages", data => {
-      //     console.log("data", data);
-      //     this.props.addMessage(data);
-      //   });
     });
   }
 
@@ -34,20 +30,16 @@ class BlackJackPane extends Component {
       e => true
     );
 
-    var onNext = action => {
-      console.log("action", action);
-      if (action) {
-        console.log("HEYO");
-        socket.emit("blackjackAction", {
-          action,
-          name: this.props.nickname
-        });
-      }
+    var onNext = e => {
+      console.log("E", e);
+      socket.emit("blackjackAction", {
+        action,
+        name: this.props.nickname
+      });
     };
     var onError = e => {};
     var onComplete = () => {
       //change buttons to disabled
-      //   mergedStream.subscribe(onNext, onError, onComplete);
     };
     clickStartStream.subscribe(
       res => {
@@ -58,19 +50,36 @@ class BlackJackPane extends Component {
       onError,
       onComplete
     );
+
     socket.on("startTurn", data => {
       //change button to active
-      clickStayStream.subscribe(onNext("stay"), onError, onComplete);
-      clickHitStream.subscribe(onNext("hit"), onError, onComplete);
+      clickStayStream.subscribe(onNext, onError, onComplete);
+      clickHitStream.subscribe(onNext, onError, onComplete);
     });
-    socket.on("playersCards", ({ players }) => {
-      let hand = players
-        .filter(data => data.name === this.props.nickname)
-        .map(data => data.hand)
-        .forEach(cards => {
-          cards.forEach(card => this.props.addCard(card));
-        });
+    socket.on("playersCards", ({ players, dealer }) => {
+      //   players
+      //     .filter(data => data.name === this.props.nickname)
+      //     .map(data => data.hand)
+      //     .forEach(cards => {
+      //       cards.forEach(card => this.props.addCard(card));
+      //     });
+      //   players
+      //     .filter(data => data.name === "Dealer")
+      //     .map(data => data.hand)
+      //     .forEach(cards => {
+      //       cards.forEach(card => this.props.addCardDealer(card));
+      //     });
+      this.addCard(players, this.props.nickname, this.props.addCard);
+      this.addCard([dealer], "Dealer", this.props.addCardDealer);
     });
+  }
+  addCard(players, name, action) {
+    players
+      .filter(data => data.name === name)
+      .map(data => data.hand)
+      .forEach(cards => {
+        cards.forEach(card => action(card));
+      });
   }
 
   render() {
@@ -79,12 +88,28 @@ class BlackJackPane extends Component {
         <hr id="invisible-hr" />
         <div className="row">
           <div id="board">
-            {console.log(this.props.hand)}
             <ul className="list-group col-sm-10">
+              {this.props.dealer.length ? (
+                <li id="dealerHand">Dealer</li>
+              ) : null}
+              {this.props.dealer.map((card, index) => {
+                return (
+                  <li
+                    id="cardPane"
+                    className="list-group-item cardPaneOpps"
+                    key={index}
+                  >
+                    <img src={images + card.img} />
+                  </li>
+                );
+              })}
+            </ul>
+            <ul className="list-group col-sm-10">
+              {this.props.hand.length ? <li id="yourHand">Your Hand</li> : null}
               {this.props.hand.map((card, index) => {
                 return (
-                  <li className="list-group-item" key={index}>
-                    <strong>{card.value}</strong>
+                  <li id="cardPane" className="list-group-item" key={index}>
+                    <img src={images + card.img} />
                   </li>
                 );
               })}
@@ -107,12 +132,12 @@ class BlackJackPane extends Component {
   }
 }
 
-function mapStateToProps({ nickname, hand }) {
-  return { nickname, hand };
+function mapStateToProps({ nickname, hand, dealer }) {
+  return { nickname, hand, dealer };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ addCard }, dispatch);
+  return bindActionCreators({ addCard, addCardDealer }, dispatch);
 }
 
 export default connect(

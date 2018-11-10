@@ -25,6 +25,19 @@
 #startBtn,
 #hitBtn,
 #stayBtn {
-  margin-right: 0.7em;
+  margin-right: 0.5em;
+}
+#cardPane {
+  border: none;
+  display: inline-block;
+  padding: 0px;
+  margin: 0px 5px 0px 0px;
+}
+.cardPaneOpps {
+  size: 0.75em;
+}
+#yourHand,
+#dealerHand {
+  list-style: none;
 }
 /* BlackJack Pane */

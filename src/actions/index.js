@@ -3,6 +3,7 @@ import axios from "axios";
 export const FETCH_NICKNAME = "FETCH_NICKNAME";
 export const ADD_MESSAGE = "ADD_MESSAGE";
 export const ADD_CARD = "ADD_CARD";
+export const ADD_CARD_DEALER = "ADD_CARD_DEALER";
 
 export function fetchNickname(len) {
   let text = "";
@@ -25,6 +26,12 @@ export function addMessage(message) {
 export function addCard(card) {
   return {
     type: ADD_CARD,
+    payload: card
+  };
+}
+export function addCardDealer(card) {
+  return {
+    type: ADD_CARD_DEALER,
     payload: card
   };
 }
