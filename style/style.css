@@ -21,3 +21,10 @@
   visibility: hidden;
 }
 /* Chat Pane */
+/* BlackJack Pane */
+#startBtn,
+#hitBtn,
+#stayBtn {
+  margin-right: 0.7em;
+}
+/* BlackJack Pane */

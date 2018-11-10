@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export const FETCH_NICKNAME = "FETCH_NICKNAME";
-// export const FETCH_MESSAGES = "FETCH_MESSAGES";
 export const ADD_MESSAGE = "ADD_MESSAGE";
+export const ADD_CARD = "ADD_CARD";
 
 export function fetchNickname(len) {
   let text = "";
@@ -16,16 +16,15 @@ export function fetchNickname(len) {
     payload: text
   };
 }
-// export function fetchMessages(message) {
-//   return {
-//     type: FETCH_MESSAGES,
-//     payload: message
-//   };
-// }
 export function addMessage(message) {
-  //   console.log(message, "message");
   return {
     type: ADD_MESSAGE,
     payload: message
+  };
+}
+export function addCard(card) {
+  return {
+    type: ADD_CARD,
+    payload: card
   };
 }
