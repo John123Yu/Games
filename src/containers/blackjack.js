@@ -7,6 +7,11 @@ import socket from "../util/socket-io";
 import moment from "moment";
 const images = "./src/static/images/cards-png/";
 
+if (!socket.on) {
+  socket.on = () => {};
+  socket.emit = () => {};
+}
+
 class BlackJackPane extends Component {
   constructor(props) {
     super(props);

@@ -6,15 +6,20 @@ import Rx from "rx";
 import socket from "../util/socket-io";
 import moment from "moment";
 
+if (!socket.on) {
+  socket.on = () => {};
+  socket.emit = () => {};
+}
+
 class ChatPane extends Component {
   constructor(props) {
     super(props);
 
     this.props.fetchNickname(6);
 
+    console.log("socket", socket);
     setImmediate(() => {
-      socket.emit("message", {
-        message: `${this.props.nickname} has joined`,
+      socket.emit("name", {
         nickname: this.props.nickname
       });
 
@@ -74,7 +79,7 @@ class ChatPane extends Component {
                 <li
                   id="chat-message"
                   className="list-group-item"
-                  key={message.timestamp}
+                  key={message.timestamp + Math.random()}
                 >
                   <p id="chat-message-p">
                     <strong>{message.message}</strong>
