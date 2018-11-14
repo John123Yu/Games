@@ -15,18 +15,26 @@ class ChatPane extends Component {
   constructor(props) {
     super(props);
 
-    this.props.fetchNickname(6);
+    // this.props.fetchNickname(6);
 
-    console.log("socket", socket);
-    setImmediate(() => {
-      socket.emit("name", {
-        nickname: this.props.nickname
-      });
+    socket.on("name_set", ({ nickname }) => {
+      name ? (this.props.nickname = name) : this.props.fetchNickname(6);
+      if (name) {
+        // this.props.nickname = name;
+        myComponent.setProps({ nickname });
+      } else {
+        this.props.fetchNickname(6);
+        setImmediate(() => {
+          socket.emit("name", {
+            nickname: this.props.nickname
+          });
+        });
+      }
+    });
 
-      socket.on("messages", data => {
-        console.log("data", data);
-        this.props.addMessage(data);
-      });
+    socket.on("messages", data => {
+      console.log("data", data);
+      this.props.addMessage(data);
     });
   }
 

@@ -4,7 +4,7 @@ import blackjack from "../containers/blackjack";
 //   transports: ["websocket"],
 //   upgrade: false
 // });
-const socket = io("localhost:4040/namespace", {
+const socket = io("localhost:4040/api/namespace", {
   transports: ["websocket"],
   upgrade: false
 });
