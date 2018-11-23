@@ -4,7 +4,6 @@ import { bindActionCreators } from "redux";
 import { addCard, addCardDealer, addCardOpps } from "../actions/index";
 import Rx from "rx";
 import socket from "../util/socket-io";
-import moment from "moment";
 const images = "./src/static/images/cards-png/";
 
 if (!socket.on) {

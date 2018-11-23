@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchNickname, addMessage } from "../actions/index";
+import { fetchNickname, addMessage, setNickname } from "../actions/index";
 import Rx from "rx";
 import socket from "../util/socket-io";
 import moment from "moment";
@@ -15,13 +15,10 @@ class ChatPane extends Component {
   constructor(props) {
     super(props);
 
-    // this.props.fetchNickname(6);
-
-    socket.on("name_set", ({ nickname }) => {
-      name ? (this.props.nickname = name) : this.props.fetchNickname(6);
+    socket.on("name_set", ({ name }) => {
+      console.log("HERE ", name);
       if (name) {
-        // this.props.nickname = name;
-        myComponent.setProps({ nickname });
+        this.props.setNickname(name);
       } else {
         this.props.fetchNickname(6);
         setImmediate(() => {
@@ -31,7 +28,6 @@ class ChatPane extends Component {
         });
       }
     });
-
     socket.on("messages", data => {
       console.log("data", data);
       this.props.addMessage(data);
@@ -133,7 +129,10 @@ function mapStateToProps({ nickname, messages }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchNickname, addMessage }, dispatch);
+  return bindActionCreators(
+    { fetchNickname, setNickname, addMessage },
+    dispatch
+  );
 }
 
 export default connect(

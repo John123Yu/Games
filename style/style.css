@@ -42,3 +42,8 @@
   list-style: none;
 }
 /* BlackJack Pane */
+/* Users */
+.users-list-item {
+  border: none !important;
+}
+/* Users */
