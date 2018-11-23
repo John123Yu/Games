@@ -9,7 +9,7 @@ export const ADD_OPPS_CARD = "ADD_OPPS_CARD";
 // export const CREATE_USER = "CREATE_USER";
 export const FETCH_USER = "FETCH_USER";
 export const FETCH_USERS = "FETCH_USERS";
-export const AUTHENTICATE_USER = "AUTHENTICATE_USER";
+export const SOCIAL_LOGIN = "SOCIAL_LOGIN";
 
 const ROOT_URL = "http://localhost:4040/api";
 
@@ -63,13 +63,6 @@ export function register(user, callback) {
     payload: request
   };
 }
-// export function googleLogin(user, callback) {
-//   const request = axios.post(`${ROOT_URL}/users/google`, user).then(() => callback());
-//   return {
-//     type: FETCH_USER,
-//     payload: request
-//   };
-// }
 export function fetchUsers() {
   const request = axios.get(`${ROOT_URL}/users`);
   return {
@@ -84,10 +77,10 @@ export function fetchUser(id) {
     payload: request
   }
 }
-export function authenticateUser() {
+export function socialLogin(user) {
   return {
-    type: AUTHENTICATE_USER,
-    payload: true
+    type: SOCIAL_LOGIN,
+    payload: user
   }
 }
 //-----------USERS-------------------------------------------------//

@@ -3,20 +3,44 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
-// import { googleLogin } from "../actions/index";
+import config from "../config.json";
+import { socialLogin } from "../actions/index";
+
+const ROOT_URL = "http://localhost:4040/api/auth";
 
 class Login extends Component {
   constructor() {
     super();
   }
 
-  facebookResponse = e => {};
-
-  googleResponse = e => {};
-
   onFailure = error => {
-    console.log(error);
+    alert(error);
   };
+
+  social_login = response => {
+    let url;
+    response.googleId ? (url = "google") : (url = "facebook");
+    const tokenBlob = new Blob(
+      [JSON.stringify({ access_token: response.accessToken }, null, 2)],
+      { type: "application/json" }
+    );
+    const options = {
+      method: "POST",
+      body: tokenBlob,
+      mode: "cors",
+      cache: "default"
+    };
+    fetch(`${ROOT_URL}/${url}`, options).then(r => {
+      const token = r.headers.get("x-auth-token");
+      r.json().then(user => {
+        if (token) {
+          this.props.socialLogin(user);
+        }
+      });
+    });
+  };
+
+  logout() {}
 
   render() {
     let content = !!this.props.user.isAuthenticated ? (
@@ -32,15 +56,15 @@ class Login extends Component {
     ) : (
       <div>
         <FacebookLogin
-          appId="XXXXXXXXXX"
+          appId={config.FACEBOOK_APP_ID}
           autoLoad={false}
           fields="name,email,picture"
-          callback={this.facebookResponse}
+          callback={this.social_login}
         />
         <GoogleLogin
-          clientId="1016989970932-sdvnbp3vpcbouctlc0shecb6hagp7qsq.apps.googleusercontent.com"
+          clientId={config.GOOGLE_CLIENT_ID}
           buttonText="Login"
-          onSuccess={this.googleResponse}
+          onSuccess={this.social_login}
           onFailure={this.googleResponse}
         />
       </div>
@@ -55,7 +79,7 @@ function mapStateToProps({ user }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({}, dispatch);
+  return bindActionCreators({ socialLogin }, dispatch);
 }
 
 export default connect(
