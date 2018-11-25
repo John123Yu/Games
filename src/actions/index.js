@@ -10,6 +10,7 @@ export const ADD_OPPS_CARD = "ADD_OPPS_CARD";
 export const FETCH_USER = "FETCH_USER";
 export const FETCH_USERS = "FETCH_USERS";
 export const SOCIAL_LOGIN = "SOCIAL_LOGIN";
+export const LOGOUT = "LOGOUT";
 
 const ROOT_URL = "http://localhost:4040/api";
 
@@ -77,10 +78,23 @@ export function fetchUser(id) {
     payload: request
   }
 }
-export function socialLogin(user) {
+export function socialLogin(user, token) {
+  let isAuthenticated = true;
+  console.log(token)
   return {
     type: SOCIAL_LOGIN,
-    payload: user
+    payload: { user, token, isAuthenticated }
+  }
+}
+export function logout() {
+  let payload = {
+    isAuthenticated: false,
+    token: "",
+    user: null
+  }
+  return {
+    type: LOGOUT,
+    payload
   }
 }
 //-----------USERS-------------------------------------------------//

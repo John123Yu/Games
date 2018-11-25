@@ -4,7 +4,8 @@ import { bindActionCreators } from "redux";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
 import config from "../config.json";
-import { socialLogin } from "../actions/index";
+import { socialLogin, logout } from "../actions/index";
+import { Link } from "react-router-dom";
 
 const ROOT_URL = "http://localhost:4040/api/auth";
 
@@ -34,13 +35,15 @@ class Login extends Component {
       const token = r.headers.get("x-auth-token");
       r.json().then(user => {
         if (token) {
-          this.props.socialLogin(user);
+          this.props.socialLogin(user, token);
         }
       });
     });
   };
 
-  logout() {}
+  logout() {
+    this.props.logout();
+  }
 
   render() {
     let content = !!this.props.user.isAuthenticated ? (
@@ -48,7 +51,8 @@ class Login extends Component {
         <p>Authenticated</p>
         <div>{this.props.user.email}</div>
         <div>
-          <button onClick={this.logout} className="button">
+          <Link to="/users">Users</Link>
+          <button onClick={this.logout.bind(this)} className="button">
             Log out
           </button>
         </div>
@@ -79,7 +83,7 @@ function mapStateToProps({ user }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ socialLogin }, dispatch);
+  return bindActionCreators({ socialLogin, logout }, dispatch);
 }
 
 export default connect(

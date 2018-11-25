@@ -10,6 +10,7 @@ import Register from "./containers/register";
 import Users from "./containers/users";
 import User from "./containers/user";
 import Login from "./containers/login";
+import Navigation from "./components/navbar";
 
 import reducers from "./reducers";
 
@@ -19,6 +20,7 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
       <div>
+        <Navigation />
         <Switch>
           <Route path="/blackJack" component={BlackJack} />
           <Route path="/users/new" component={Register} />

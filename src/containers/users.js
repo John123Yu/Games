@@ -13,8 +13,8 @@ class Users extends Component {
       return <div>...please wait</div>;
     }
     return (
-      <div className="row">
-        <Link to="/users/new" className="btn btn-primary pull-xs-right">
+      <div className="container">
+        <Link to="/users/new" className="btn btn-primary float-right">
           Register
         </Link>
         <h4>Players</h4>

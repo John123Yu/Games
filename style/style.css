@@ -47,3 +47,12 @@
   border: none !important;
 }
 /* Users */
+/* Nav */
+.login-link {
+  float: right;
+  color: white;
+}
+.navbar {
+  margin-bottom: 10px;
+}
+/* Nav */

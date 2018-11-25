@@ -1,4 +1,4 @@
-import { SOCIAL_LOGIN } from "../actions/index";
+import { SOCIAL_LOGIN, LOGOUT } from "../actions/index";
 import { request } from "http";
 
 export default function(
@@ -11,11 +11,9 @@ export default function(
 ) {
   switch (action.type) {
     case SOCIAL_LOGIN:
-      let newState = {
-        isAuthenticated: true,
-        user: action.payload
-      };
-      return newState;
+      return action.payload;
+    case LOGOUT:
+      return action.payload;
   }
   return state;
 }
