@@ -1,46 +1,19 @@
 import axios from "axios";
 import { ROOT_URL } from "../config";
-import io from "socket.io-client";
-import { serverIoUrl } from "../config";
 
-export const FETCH_NICKNAME = "FETCH_NICKNAME";
-export const SET_NICKNAME = "SET_NICKNAME";
 export const ADD_MESSAGE = "ADD_MESSAGE";
 export const ADD_CARD = "ADD_CARD";
 export const ADD_CARD_DEALER = "ADD_CARD_DEALER";
 export const ADD_OPPS_CARD = "ADD_OPPS_CARD";
-// export const CREATE_USER = "CREATE_USER";
 export const FETCH_USER = "FETCH_USER";
 export const FETCH_USERS = "FETCH_USERS";
 export const SOCIAL_LOGIN = "SOCIAL_LOGIN";
 export const LOGOUT = "LOGOUT";
 export const SET_ITEMID = "SET_ITEMID";
 export const SETUP_SOCKET = "SETUP_SOCKET";
+export const SOCKET_CONNECT = "SOCKET_CONNECT";
+export const EMIT_MESSAGE = "EMIT_MESSAGE";
 
-export function fetchNickname(len) {
-  let text = "";
-  let possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for (let i = 0; i < len; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return {
-    type: FETCH_NICKNAME,
-    payload: text
-  };
-}
-export function setNickname(name) {
-  return {
-    type: SET_NICKNAME,
-    payload: name
-  };
-}
-export function addMessage(message) {
-  return {
-    type: ADD_MESSAGE,
-    payload: message
-  };
-}
 export function addCard(card) {
   return {
     type: ADD_CARD,
@@ -124,3 +97,17 @@ export function setupSocket(room) {
     payload: socket
   };
 }
+//-----------Socket-------------------------------------------------//
+export function socketConnect(id) {
+  return {
+    type: SOCKET_CONNECT,
+    payload: id
+  };
+}
+export function emitMessage(obj) {
+  return {
+    type: EMIT_MESSAGE,
+    payload: obj
+  };
+}
+//-----------Sockets-------------------------------------------------//

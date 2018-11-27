@@ -1,10 +1,10 @@
-import { FETCH_NICKNAME, SET_NICKNAME } from "../actions/index";
+import { FETCH_USERNAME, SET_USERNAME } from "../actions/index";
 
 export default function(state = "random", action) {
   switch (action.type) {
-    case FETCH_NICKNAME:
+    case FETCH_USERNAME:
       return action.payload;
-    case SET_NICKNAME:
+    case SET_USERNAME:
       return action.payload;
   }
   return state;

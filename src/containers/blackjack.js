@@ -4,21 +4,16 @@ import { bindActionCreators } from "redux";
 import { addCard, addCardDealer, addCardOpps } from "../actions/index";
 import Rx from "rx";
 const images = "./src/static/images/cards-png/";
-// import socket from "../util/socket-io";
-
-let socket;
 
 class BlackJackPane extends Component {
   constructor(props) {
     super(props);
 
-    socket = this.props.socket;
-
-    setImmediate(() => {
-      socket.emit("joinBlackJack", {
-        name: this.props.nickname
-      });
-    });
+    // setImmediate(() => {
+    //   socket.emit("joinBlackJack", {
+    //     name: this.props.username
+    //   });
+    // });
   }
 
   componentDidMount() {
@@ -33,44 +28,44 @@ class BlackJackPane extends Component {
       e => true
     );
 
-    var onNext = e => {
-      socket.emit("blackjackAction", {
-        action,
-        name: this.props.nickname
-      });
-    };
+    // var onNext = e => {
+    //   socket.emit("blackjackAction", {
+    //     action,
+    //     name: this.props.username
+    //   });
+    // };
     var onError = e => {};
     var onComplete = () => {
       //change buttons to disabled
     };
     clickStartStream.subscribe(
       res => {
-        socket.emit("startBlackJack", {
-          dummy: "dummy"
-        });
+        // socket.emit("startBlackJack", {
+        //   dummy: "dummy"
+        // });
       },
       onError,
       onComplete
     );
 
-    socket.on("startTurn", data => {
-      //change button to active
-      clickStayStream.subscribe(onNext, onError, onComplete);
-      clickHitStream.subscribe(onNext, onError, onComplete);
-    });
-    socket.on("playersCards", ({ players, dealer }) => {
-      this.addCard(players, this.props.nickname, this.props.addCard);
-      this.addCard([dealer], "Dealer", this.props.addCardDealer);
-      let opponents = {};
-      let opps = players.filter(data => data.name !== this.props.nickname);
-      opps.forEach(opp => {
-        for (let i = 0; i < opp.hand.length; i++) {
-          !opponents[opp.name] ? (opponents[opp.name] = []) : undefined;
-          opponents[opp.name].push(opp.hand[i]);
-        }
-      });
-      this.props.addCardOpps(opponents);
-    });
+    // socket.on("startTurn", data => {
+    //   //change button to active
+    //   clickStayStream.subscribe(onNext, onError, onComplete);
+    //   clickHitStream.subscribe(onNext, onError, onComplete);
+    // });
+    // socket.on("playersCards", ({ players, dealer }) => {
+    //   this.addCard(players, this.props.username, this.props.addCard);
+    //   this.addCard([dealer], "Dealer", this.props.addCardDealer);
+    //   let opponents = {};
+    //   let opps = players.filter(data => data.name !== this.props.username);
+    //   opps.forEach(opp => {
+    //     for (let i = 0; i < opp.hand.length; i++) {
+    //       !opponents[opp.name] ? (opponents[opp.name] = []) : undefined;
+    //       opponents[opp.name].push(opp.hand[i]);
+    //     }
+    //   });
+    //   this.props.addCardOpps(opponents);
+    // });
   }
   addCard(players, name, action) {
     players
@@ -152,8 +147,8 @@ class BlackJackPane extends Component {
   }
 }
 
-function mapStateToProps({ nickname, hand, dealer, opponents, socket }) {
-  return { nickname, hand, dealer, opponents, socket };
+function mapStateToProps({ username, hand, dealer, opponents }) {
+  return { username, hand, dealer, opponents };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -1,35 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchNickname, addMessage, setNickname } from "../actions/index";
+import { socketConnect, emitMessage } from "../actions/index";
 import Rx from "rx";
 import moment from "moment";
-// import socket from "../util/socket-io";
+import { withRouter } from "react-router-dom";
+import Cookie from "js-cookie";
 
-let socket;
+let username = Cookie.get("username");
 
 class ChatPane extends Component {
   constructor(props) {
     super(props);
 
-    socket = this.props.socket;
-    this.props.setNickname("haoao");
-
-    socket.on("name_set", ({ name }) => {
-      if (name) {
-        this.props.setNickname(name);
-      } else {
-        this.props.fetchNickname(6);
-        setImmediate(() => {
-          socket.emit("name", {
-            nickname: this.props.nickname
-          });
-        });
-      }
-    });
-    socket.on("messages", data => {
-      this.props.addMessage(data);
-    });
+    if (!username) {
+      //toast to ask for loggin in
+      this.props.history.push("/login");
+    } else {
+      this.props.socketConnect({
+        id: 12,
+        username
+      });
+    }
   }
 
   componentDidMount() {
@@ -57,11 +49,9 @@ class ChatPane extends Component {
     };
     var onError = e => {};
     var onComplete = () => {
-      this.props.addMessage("hallo");
-
-      socket.emit("message", {
+      this.props.emitMessage({
         message: text,
-        nickname: this.props.nickname
+        username
       });
       textField.value = "";
       textField.focus();
@@ -76,30 +66,32 @@ class ChatPane extends Component {
       <div>
         <hr id="invisible-hr" />
         <div className="row">
-          <h4>You are: {this.props.nickname} </h4>
-          <ul className="list-group col-sm-10">
-            {this.props.messages.map((message, index) => {
-              return (
-                <li
-                  id="chat-message"
-                  className="list-group-item"
-                  key={message.timestamp + Math.random()}
-                >
-                  <p id="chat-message-p">
-                    <strong>{message.message}</strong>
-                  </p>
-                  <span id="chat-message-span" className="title">
-                    {message.nickname}
-                    <i id="chat-message-i">
-                      {moment(parseInt(message.timestamp)).format(
-                        "HH:mm:ss MM-DD-YYYY"
-                      )}
-                    </i>
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="container">
+            <h4>You are: {username} </h4>
+            <ul className="list-group col-sm-10">
+              {this.props.messages.map((message, index) => {
+                return (
+                  <li
+                    id="chat-message"
+                    className="list-group-item"
+                    key={message.timestamp + Math.random()}
+                  >
+                    <p id="chat-message-p">
+                      <strong>{message.message}</strong>
+                    </p>
+                    <span id="chat-message-span" className="title">
+                      {message.username}
+                      <i id="chat-message-i">
+                        {moment(parseInt(message.timestamp)).format(
+                          "HH:mm:ss MM-DD-YYYY"
+                        )}
+                      </i>
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
         <div className="row" id="chatpane-input">
           <div className="form-group col-sm-10">
@@ -124,18 +116,15 @@ class ChatPane extends Component {
   }
 }
 
-function mapStateToProps({ nickname, messages, socket }) {
-  return { nickname, messages, socket };
+function mapStateToProps({ username, messages, user }) {
+  return { username, messages, user };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    { fetchNickname, setNickname, addMessage },
-    dispatch
-  );
+  return bindActionCreators({ socketConnect, emitMessage }, dispatch);
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChatPane);
+)(withRouter(ChatPane));

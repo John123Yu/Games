@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
-import NicknameReducer from "./reducer_nickname";
+import UsernameReducer from "./reducer_username";
 import MessagesReducer from "./reducer_messages";
 import CardReducer from "./reducer_card";
 import CardDealerReducer from "./reducer_dealer";
@@ -11,7 +11,7 @@ import ItemIdReducer from "./reducer_itemId";
 import SocketReducer from "./reducer_socket";
 
 const rootReducer = combineReducers({
-  nickname: NicknameReducer,
+  username: UsernameReducer,
   messages: MessagesReducer,
   hand: CardReducer,
   dealer: CardDealerReducer,

@@ -1,33 +1,44 @@
 import { serverIoUrl } from "../config";
 import io from "socket.io-client";
 
-const createMySocketMiddleware = id => {
-  let socket;
+import { ADD_MESSAGE, EMIT_MESSAGE, SOCKET_CONNECT } from "../actions/index";
 
+const createMySocketMiddleware = () => {
+  let socket;
+  let room;
   return storeAPI => next => action => {
     switch (action.type) {
-      case "SET_NICKNAME": {
-        socket = createMyWebsocket(id);
-        console.log("HELLO");
-        break;
-      }
-      case "ADD_MESSAGE": {
-        socket.emit("joinBlackJack", {
-          name: "this.props.nickname"
+      case SOCKET_CONNECT: {
+        room = `/item/${action.payload.id}`;
+        socket = createMyWebsocket(room);
+
+        socket.emit("name", {
+          username: action.payload.username
         });
-        console.log("PG");
+
+        socket.on("messages", data => {
+          storeAPI.dispatch({
+            type: ADD_MESSAGE,
+            payload: data
+          });
+        });
+        return;
+      }
+      case EMIT_MESSAGE: {
+        socket.emit("message", {
+          message: action.payload.message,
+          username: action.payload.username
+        });
         return;
       }
     }
-
     return next(action);
   };
 };
 
 module.exports = createMySocketMiddleware;
 
-function createMyWebsocket(id) {
-  const room = `/item/${id}/messages`;
+function createMyWebsocket(room) {
   let socket = io.connect(
     `${serverIoUrl}`,
     {
@@ -37,6 +48,6 @@ function createMyWebsocket(id) {
       // upgrade: false
     }
   );
-
+  console.log("socket connected to room:", room);
   return socket;
 }

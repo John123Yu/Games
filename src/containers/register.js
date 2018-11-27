@@ -23,6 +23,7 @@ class Register extends Component {
     );
   }
   onSubmit(values) {
+    console.log("heree");
     this.props.register(values, () => {
       this.props.history.push("/users");
     });

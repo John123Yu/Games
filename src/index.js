@@ -17,7 +17,7 @@ import reducers from "./reducers";
 
 const createStoreWithMiddleware = applyMiddleware(
   ReduxPromise,
-  createMySocketMiddleware(12)
+  createMySocketMiddleware()
 )(createStore);
 
 ReactDOM.render(

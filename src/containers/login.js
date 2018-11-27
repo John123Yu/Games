@@ -38,6 +38,7 @@ class Login extends Component {
         if (token) {
           this.props.socialLogin(user, token);
           Cookie.set("jwt", token, { expires: 1 });
+          Cookie.set("username", user.username, { expires: 1 });
         }
       });
     });
