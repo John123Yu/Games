@@ -21,19 +21,21 @@ const createStoreWithMiddleware = applyMiddleware(
 )(createStore);
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
-    <BrowserRouter>
-      <div>
-        <Navigation />
-        <Switch>
-          <Route path="/blackJack" component={BlackJack} />
-          <Route path="/users/new" component={Register} />
-          <Route path="/users/:id" component={User} />
-          <Route path="/users" component={Users} />
-          <Route path="/login" component={Login} />
-        </Switch>
-      </div>
-    </BrowserRouter>
-  </Provider>,
-  document.querySelector(".container")
+  <div className="container">
+    <Provider store={createStoreWithMiddleware(reducers)}>
+      <BrowserRouter>
+        <div>
+          <Navigation />
+          <Switch>
+            <Route path="/blackJack" component={BlackJack} />
+            <Route path="/users/new" component={Register} />
+            <Route path="/users/:id" component={User} />
+            <Route path="/users" component={Users} />
+            <Route path="/login" component={Login} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    </Provider>
+  </div>,
+  document.querySelector(".outermost_div")
 );

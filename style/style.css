@@ -1,3 +1,8 @@
+.outermost_div {
+  background-color: aliceblue;
+  padding: 0px !important;
+  height: 100vh;
+}
 /* Chat Pane */
 #chatpane-input {
   margin-top: 1em;
@@ -23,6 +28,9 @@
 }
 #invisible-hr {
   visibility: hidden;
+}
+.list-group-item {
+  background-color: aliceblue !important;
 }
 /* Chat Pane */
 /* BlackJack Pane */

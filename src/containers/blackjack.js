@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addCard, addCardDealer, addCardOpps } from "../actions/index";
+import { emitJoinBlackJack, emitStartBlackJack } from "../actions/index";
 import Rx from "rx";
 const images = "./src/static/images/cards-png/";
 
@@ -9,11 +9,10 @@ class BlackJackPane extends Component {
   constructor(props) {
     super(props);
 
-    // setImmediate(() => {
-    //   socket.emit("joinBlackJack", {
-    //     name: this.props.username
-    //   });
-    // });
+    setImmediate(() => {
+      console.log("yserbane", this.props.username);
+      this.props.emitJoinBlackJack(this.props.username);
+    });
   }
 
   componentDidMount() {
@@ -40,9 +39,7 @@ class BlackJackPane extends Component {
     };
     clickStartStream.subscribe(
       res => {
-        // socket.emit("startBlackJack", {
-        //   dummy: "dummy"
-        // });
+        this.props.emitStartBlackJack();
       },
       onError,
       onComplete
@@ -53,27 +50,6 @@ class BlackJackPane extends Component {
     //   clickStayStream.subscribe(onNext, onError, onComplete);
     //   clickHitStream.subscribe(onNext, onError, onComplete);
     // });
-    // socket.on("playersCards", ({ players, dealer }) => {
-    //   this.addCard(players, this.props.username, this.props.addCard);
-    //   this.addCard([dealer], "Dealer", this.props.addCardDealer);
-    //   let opponents = {};
-    //   let opps = players.filter(data => data.name !== this.props.username);
-    //   opps.forEach(opp => {
-    //     for (let i = 0; i < opp.hand.length; i++) {
-    //       !opponents[opp.name] ? (opponents[opp.name] = []) : undefined;
-    //       opponents[opp.name].push(opp.hand[i]);
-    //     }
-    //   });
-    //   this.props.addCardOpps(opponents);
-    // });
-  }
-  addCard(players, name, action) {
-    players
-      .filter(data => data.name === name)
-      .map(data => data.hand)
-      .forEach(cards => {
-        cards.forEach(card => action(card));
-      });
   }
   renderOpponents() {
     if (this.props.opponents.length) {
@@ -152,7 +128,13 @@ function mapStateToProps({ username, hand, dealer, opponents }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ addCard, addCardDealer, addCardOpps }, dispatch);
+  return bindActionCreators(
+    {
+      emitJoinBlackJack,
+      emitStartBlackJack
+    },
+    dispatch
+  );
 }
 
 export default connect(
