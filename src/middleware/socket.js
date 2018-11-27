@@ -50,33 +50,44 @@ const createMySocketMiddleware = () => {
       }
       case EMIT_JOIN_BLACKJACK: {
         socket.emit("joinBlackJack", {
-          name: action.payload,
-          room
+          name: action.payload
         });
-        return;
-      }
-      case EMIT_START_BLACKJACK: {
-        socket.emit("startBlackJack", { room });
 
         socket.on("playersCards", ({ players, dealer }) => {
-          let ownCards = addCard(players, username);
+          let ownCards = getCards(players, username);
           ownCards.forEach(card => {
             storeAPI.dispatch({
               type: ADD_CARD,
               payload: card
             });
           });
-          //   this.addCard([dealer], "Dealer", this.props.addCardDealer);
-          //   let opponents = {};
-          //   let opps = players.filter(data => data.name !== this.props.username);
-          //   opps.forEach(opp => {
-          //     for (let i = 0; i < opp.hand.length; i++) {
-          //       !opponents[opp.name] ? (opponents[opp.name] = []) : undefined;
-          //       opponents[opp.name].push(opp.hand[i]);
-          //     }
-          //   });
+          let dealerCards = getCards([dealer], "Dealer");
+          dealerCards.forEach(card => {
+            storeAPI.dispatch({
+              type: ADD_CARD_DEALER,
+              payload: card
+            });
+          });
+          let opponents = {};
+          let opps = players.filter(data => data.name !== username);
+          opps.forEach(opp => {
+            for (let i = 0; i < opp.hand.length; i++) {
+              !opponents[opp.name] ? (opponents[opp.name] = []) : undefined;
+              opponents[opp.name].push(opp.hand[i]);
+            }
+          });
+          console.log(opponents);
           //   this.props.addCardOpps(opponents);
+          storeAPI.dispatch({
+            type: ADD_OPPS_CARD,
+            payload: opponents
+          });
+          //   });
         });
+        return;
+      }
+      case EMIT_START_BLACKJACK: {
+        socket.emit("startBlackJack", {});
         return;
       }
     }
@@ -100,7 +111,7 @@ function createMyWebsocket(room) {
   return socket;
 }
 
-function addCard(players, name) {
+function getCards(players, name) {
   var return_ = [];
   players
     .filter(data => data.name === name)

@@ -17,30 +17,6 @@ export const EMIT_MESSAGE = "EMIT_MESSAGE";
 export const EMIT_JOIN_BLACKJACK = "EMIT_JOIN_BLACKJACK";
 export const EMIT_START_BLACKJACK = "EMIT_START_BLACKJACK";
 
-export function addCard(card) {
-  return {
-    type: ADD_CARD,
-    payload: card
-  };
-}
-export function addCardDealer(card) {
-  return {
-    type: ADD_CARD_DEALER,
-    payload: card
-  };
-}
-export function addCardOpps(object) {
-  return {
-    type: ADD_OPPS_CARD,
-    payload: object
-  };
-}
-export function emitJoinBlackJack(object) {
-  return {
-    type: EMIT_JOIN_BLACKJACK,
-    payload: object
-  };
-}
 //-----------USERS-------------------------------------------------//
 export function register(user, callback) {
   const request = axios.post(`${ROOT_URL}/users`, user).then(() => callback());
@@ -117,6 +93,12 @@ export function emitMessage(obj) {
   return {
     type: EMIT_MESSAGE,
     payload: obj
+  };
+}
+export function emitJoinBlackJack(object) {
+  return {
+    type: EMIT_JOIN_BLACKJACK,
+    payload: object
   };
 }
 export function emitStartBlackJack(obj) {
