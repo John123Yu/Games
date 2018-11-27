@@ -6,6 +6,7 @@ import FacebookLogin from "react-facebook-login";
 import config from "../config.json";
 import { socialLogin, logout } from "../actions/index";
 import { Link } from "react-router-dom";
+import Cookie from "js-cookie";
 
 const ROOT_URL = "http://localhost:4040/api/auth";
 
@@ -36,6 +37,7 @@ class Login extends Component {
       r.json().then(user => {
         if (token) {
           this.props.socialLogin(user, token);
+          Cookie.set("jwt", token, { expires: 1 });
         }
       });
     });

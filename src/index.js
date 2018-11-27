@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import ReduxPromise from "redux-promise";
+import createMySocketMiddleware from "./middleware/socket";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import BlackJack from "./components/blackJack";
@@ -14,7 +15,10 @@ import Navigation from "./components/navbar";
 
 import reducers from "./reducers";
 
-const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
+const createStoreWithMiddleware = applyMiddleware(
+  ReduxPromise,
+  createMySocketMiddleware(12)
+)(createStore);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>

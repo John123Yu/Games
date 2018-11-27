@@ -7,6 +7,8 @@ import CardDealerReducer from "./reducer_dealer";
 import CardOppsReducer from "./reducer_opps";
 import UsersReducer from "./reducer_users";
 import UserReducer from "./reducer_user";
+import ItemIdReducer from "./reducer_itemId";
+import SocketReducer from "./reducer_socket";
 
 const rootReducer = combineReducers({
   nickname: NicknameReducer,
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   opponents: CardOppsReducer,
   form: formReducer,
   users: UsersReducer,
-  user: UserReducer
+  user: UserReducer,
+  itemId: ItemIdReducer,
+  socket: SocketReducer
 });
 
 export default rootReducer;

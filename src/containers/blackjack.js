@@ -3,17 +3,16 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { addCard, addCardDealer, addCardOpps } from "../actions/index";
 import Rx from "rx";
-import socket from "../util/socket-io";
 const images = "./src/static/images/cards-png/";
+// import socket from "../util/socket-io";
 
-if (!socket.on) {
-  socket.on = () => {};
-  socket.emit = () => {};
-}
+let socket;
 
 class BlackJackPane extends Component {
   constructor(props) {
     super(props);
+
+    socket = this.props.socket;
 
     setImmediate(() => {
       socket.emit("joinBlackJack", {
@@ -35,7 +34,6 @@ class BlackJackPane extends Component {
     );
 
     var onNext = e => {
-      console.log("E", e);
       socket.emit("blackjackAction", {
         action,
         name: this.props.nickname
@@ -83,7 +81,6 @@ class BlackJackPane extends Component {
       });
   }
   renderOpponents() {
-    console.log(this.props.opponents);
     if (this.props.opponents.length) {
       let cards = [];
       this.props.opponents.forEach(opponent => {
@@ -100,7 +97,6 @@ class BlackJackPane extends Component {
           );
         });
       });
-      console.log(cards);
       return cards;
     }
   }
@@ -156,8 +152,8 @@ class BlackJackPane extends Component {
   }
 }
 
-function mapStateToProps({ nickname, hand, dealer, opponents }) {
-  return { nickname, hand, dealer, opponents };
+function mapStateToProps({ nickname, hand, dealer, opponents, socket }) {
+  return { nickname, hand, dealer, opponents, socket };
 }
 
 function mapDispatchToProps(dispatch) {

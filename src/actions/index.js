@@ -1,4 +1,7 @@
 import axios from "axios";
+import { ROOT_URL } from "../config";
+import io from "socket.io-client";
+import { serverIoUrl } from "../config";
 
 export const FETCH_NICKNAME = "FETCH_NICKNAME";
 export const SET_NICKNAME = "SET_NICKNAME";
@@ -11,8 +14,8 @@ export const FETCH_USER = "FETCH_USER";
 export const FETCH_USERS = "FETCH_USERS";
 export const SOCIAL_LOGIN = "SOCIAL_LOGIN";
 export const LOGOUT = "LOGOUT";
-
-const ROOT_URL = "http://localhost:4040/api";
+export const SET_ITEMID = "SET_ITEMID";
+export const SETUP_SOCKET = "SETUP_SOCKET";
 
 export function fetchNickname(len) {
   let text = "";
@@ -69,32 +72,55 @@ export function fetchUsers() {
   return {
     type: FETCH_USERS,
     payload: request
-  }
+  };
 }
 export function fetchUser(id) {
   const request = axios.get(`${ROOT_URL}/users/${id}`);
   return {
     type: FETCH_USER,
     payload: request
-  }
+  };
 }
 export function socialLogin(user, token) {
   let isAuthenticated = true;
-  console.log(token)
   return {
     type: SOCIAL_LOGIN,
     payload: { user, token, isAuthenticated }
-  }
+  };
 }
 export function logout() {
   let payload = {
     isAuthenticated: false,
     token: "",
     user: null
-  }
+  };
   return {
     type: LOGOUT,
     payload
-  }
+  };
 }
 //-----------USERS-------------------------------------------------//
+export function setItemId(id) {
+  return {
+    type: SET_ITEMID,
+    payload: id
+  };
+}
+export function setupSocket(room) {
+  // let socket = io.connect(
+  //   `${serverIoUrl}/${room}`,
+  //   {
+  //     query: `room=${room}`,
+  //     resource: "socket.io"
+  //     // transports: ["websocket"],
+  //     // upgrade: false
+  //   }
+  let socket = {
+    on: () => {},
+    emit: () => {}
+  };
+  return {
+    type: SETUP_SOCKET,
+    payload: socket
+  };
+}
