@@ -53,10 +53,16 @@
 #dealerHand {
   list-style: none;
 }
+#board {
+  width: 50em;
+}
 /* BlackJack Pane */
 /* Users */
 .users-list-item {
   border: none !important;
+}
+.opponents_ul {
+  list-style-type: none;
 }
 /* Users */
 /* Nav */

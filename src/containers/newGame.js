@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { register } from "../actions/index";
+import { newGame } from "../actions/index";
 
-var emailRe = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/;
-let emailTest = new RegExp(emailRe);
-
-class Register extends Component {
+// https://getbootstrap.com/docs/4.0/components/forms/#validation
+class NewGame extends Component {
   renderField(field) {
     const {
       meta: { touched, error },
@@ -23,8 +21,9 @@ class Register extends Component {
     );
   }
   onSubmit(values) {
-    this.props.register(values, () => {
-      this.props.history.push("/users");
+    console.log(values);
+    this.props.newGame(values, () => {
+      this.props.history.push("/games");
     });
   }
   render() {
@@ -33,11 +32,10 @@ class Register extends Component {
       <div>
         <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
           <Field
-            label="Username"
-            name="username"
+            label="Game name"
+            name="gamename"
             component={this.renderField}
           />
-          <Field label="Email" name="email" component={this.renderField} />
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
@@ -50,18 +48,17 @@ class Register extends Component {
 function validate(values) {
   const errors = {};
 
-  if (!values.username) errors.username = "Enter an username";
-  if (!emailTest.test(values.email)) errors.email = "Enter a valid email";
+  if (!values.gamename) errors.gamename = "Enter an game name";
 
   return errors;
 }
 
 export default reduxForm({
   validate,
-  form: "RegisterForm"
+  form: "newGameForm"
 })(
   connect(
     null,
-    { register }
-  )(Register)
+    { newGame }
+  )(NewGame)
 );

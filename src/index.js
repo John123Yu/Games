@@ -10,6 +10,8 @@ import BlackJack from "./components/blackJack";
 import Register from "./containers/register";
 import Users from "./containers/users";
 import User from "./containers/user";
+import Games from "./containers/games";
+import NewGame from "./containers/newGame";
 import Login from "./containers/login";
 import Navigation from "./components/navbar";
 
@@ -31,6 +33,8 @@ ReactDOM.render(
             <Route path="/users/new" component={Register} />
             <Route path="/users/:id" component={User} />
             <Route path="/users" component={Users} />
+            <Route path="/games/new" component={NewGame} />
+            <Route path="/games" component={Games} />
             <Route path="/login" component={Login} />
           </Switch>
         </div>

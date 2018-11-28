@@ -16,6 +16,8 @@ export const SOCKET_CONNECT = "SOCKET_CONNECT";
 export const EMIT_MESSAGE = "EMIT_MESSAGE";
 export const EMIT_JOIN_BLACKJACK = "EMIT_JOIN_BLACKJACK";
 export const EMIT_START_BLACKJACK = "EMIT_START_BLACKJACK";
+export const FETCH_GAMES = "FETCH_GAMES";
+export const FETCH_GAME = "FETCH_GAME";
 
 //-----------USERS-------------------------------------------------//
 export function register(user, callback) {
@@ -58,30 +60,22 @@ export function logout() {
   };
 }
 //-----------USERS-------------------------------------------------//
-// export function setItemId(id) {
-//   return {
-//     type: SET_ITEMID,
-//     payload: id
-//   };
-// }
-// export function setupSocket(room) {
-//   // let socket = io.connect(
-//   //   `${serverIoUrl}/${room}`,
-//   //   {
-//   //     query: `room=${room}`,
-//   //     resource: "socket.io"
-//   //     // transports: ["websocket"],
-//   //     // upgrade: false
-//   //   }
-//   let socket = {
-//     on: () => {},
-//     emit: () => {}
-//   };
-//   return {
-//     type: SETUP_SOCKET,
-//     payload: socket
-//   };
-// }
+//-----------GAMES-------------------------------------------------//
+export function fetchGames() {
+  const request = axios.get(`${ROOT_URL}/games`);
+  return {
+    type: FETCH_GAMES,
+    payload: request
+  };
+}
+export function newGame(game, callback) {
+  const request = axios.post(`${ROOT_URL}/games`, game).then(() => callback());
+  return {
+    type: FETCH_GAME,
+    payload: request
+  };
+}
+//-----------GAMES-------------------------------------------------//
 //-----------Socket-------------------------------------------------//
 export function socketConnect(id) {
   return {

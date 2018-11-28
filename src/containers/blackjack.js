@@ -78,24 +78,20 @@ class BlackJackPane extends Component {
         <hr id="invisible-hr" />
         <div className="row">
           <div id="board">
-            <ul className="list-group col-sm-10">
+            <ul className="opponents_ul col-sm-10">
               {this.props.dealer.length ? (
                 <li id="dealerHand">Dealer</li>
               ) : null}
               {this.props.dealer.map((card, index) => {
                 return (
-                  <li
-                    id="cardPane"
-                    className="list-group-item cardPaneOpps"
-                    key={index}
-                  >
+                  <li id="cardPane" className=" cardPaneOpps" key={index}>
                     <img className="cardOpps" src={images + card.img} />
                   </li>
                 );
               })}
             </ul>
-            <ul className="list-group col-sm-10">{this.renderOpponents()}</ul>
-            <ul className="list-group col-sm-10">
+            <ul className="opponents_ul col-sm-10">{this.renderOpponents()}</ul>
+            <ul className="opponents_ul col-sm-10">
               {this.props.hand.length ? <li id="yourHand">Your Hand</li> : null}
               {this.props.hand.map((card, index) => {
                 return (

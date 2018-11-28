@@ -9,6 +9,7 @@ import UsersReducer from "./reducer_users";
 import UserReducer from "./reducer_user";
 import ItemIdReducer from "./reducer_itemId";
 import SocketReducer from "./reducer_socket";
+import GamesReducer from "./reducer_games";
 
 const rootReducer = combineReducers({
   username: UsernameReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   users: UsersReducer,
   user: UserReducer,
   itemId: ItemIdReducer,
-  socket: SocketReducer
+  socket: SocketReducer,
+  games: GamesReducer
 });
 
 export default rootReducer;

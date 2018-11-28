@@ -16,6 +16,11 @@ export default class Navigation extends Component {
               </Link>
             </li>
             <li className="nav-item active">
+              <Link className="nav-link" to="/games">
+                Games
+              </Link>
+            </li>
+            <li className="nav-item active">
               <Link className="nav-link" to="/blackJack">
                 BlackJack
               </Link>
