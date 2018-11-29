@@ -21,13 +21,14 @@ class Games extends Component {
         <h4>Games</h4>
         <ul className="list-group col-sm-10 users-list">
           {this.props.games.map((game, index) => {
+            let gametype = game.split("-")[0];
             return (
               <li
                 className="list-group-item users-list-item"
                 key={game + index}
               >
                 <p>
-                  <Link to={`/games/${game}`}>
+                  <Link to={`/games/${gametype}/${game}`}>
                     <strong>{game}</strong>
                   </Link>
                 </p>

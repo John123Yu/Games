@@ -2,6 +2,7 @@ import { serverIoUrl } from "../config";
 import io from "socket.io-client";
 
 import {
+  CLEAR_MESSAGES,
   ADD_MESSAGE,
   EMIT_MESSAGE,
   SOCKET_CONNECT,
@@ -20,6 +21,15 @@ const createMySocketMiddleware = () => {
   return storeAPI => next => action => {
     switch (action.type) {
       case SOCKET_CONNECT: {
+        storeAPI.dispatch({
+          type: CLEAR_MESSAGES,
+          payload: []
+        });
+
+        if (socket) {
+          console.log("here");
+          socket.close();
+        }
         room = `/item/${action.payload.id}`;
         socket = createMyWebsocket(room);
         username = action.payload.username;
@@ -34,6 +44,7 @@ const createMySocketMiddleware = () => {
         });
 
         socket.on("messages", data => {
+          console.log("message", data);
           storeAPI.dispatch({
             type: ADD_MESSAGE,
             payload: data

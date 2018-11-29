@@ -14,14 +14,12 @@ class ChatPane extends Component {
     super(props);
 
     if (!username) {
-      //toast to ask for loggin in
-      this.props.history.push("/login");
-    } else {
-      this.props.socketConnect({
-        id: 12,
-        username
-      });
+      username = "Anonymous" + makeid(5);
     }
+    this.props.socketConnect({
+      id: this.props.gameId,
+      username
+    });
   }
 
   componentDidMount() {
@@ -128,3 +126,14 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(withRouter(ChatPane));
+
+function makeid(range) {
+  var text = "";
+  var possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < range; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}

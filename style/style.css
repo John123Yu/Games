@@ -74,3 +74,11 @@
   margin-bottom: 10px;
 }
 /* Nav */
+/* NEW GAME */
+.new-line {
+  margin-top: 0px;
+  padding-top: 0px;
+  position: relative;
+  top: -5px;
+}
+/* NEW GAME */

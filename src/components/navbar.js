@@ -20,11 +20,6 @@ export default class Navigation extends Component {
                 Games
               </Link>
             </li>
-            <li className="nav-item active">
-              <Link className="nav-link" to="/blackJack">
-                BlackJack
-              </Link>
-            </li>
           </ul>
           <Link className="nav-link float-right ml-auto login-link" to="/login">
             Login

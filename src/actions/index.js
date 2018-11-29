@@ -3,6 +3,7 @@ import { ROOT_URL } from "../config";
 
 export const SET_USERNAME = "SET_USERNAME";
 export const ADD_MESSAGE = "ADD_MESSAGE";
+export const CLEAR_MESSAGES = "CLEAR_MESSAGES";
 export const ADD_CARD = "ADD_CARD";
 export const ADD_CARD_DEALER = "ADD_CARD_DEALER";
 export const ADD_OPPS_CARD = "ADD_OPPS_CARD";

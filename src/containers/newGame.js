@@ -20,6 +20,29 @@ class NewGame extends Component {
       </div>
     );
   }
+  renderSelectField = ({
+    input,
+    label,
+    meta: { touched, error },
+    children
+  }) => (
+    <div>
+      <div className="input-group mb-3">
+        <div className="input-group-prepend">
+          <label className="input-group-text">{label}</label>
+        </div>
+        <div>
+          <select className="custom-select" {...input}>
+            <option defaultValue>Choose...</option>
+            {children}
+          </select>
+        </div>
+      </div>
+      <div className="text-help new-line">
+        {touched && error && <span className="new-line">{error}</span>}
+      </div>
+    </div>
+  );
   onSubmit(values) {
     console.log(values);
     this.props.newGame(values, () => {
@@ -28,18 +51,37 @@ class NewGame extends Component {
   }
   render() {
     const { handleSubmit } = this.props;
+    let mySelectOptions = [
+      { value: "War", text: "War" },
+      { value: "GoFish", text: "GoFish" },
+      { value: "BlackJack", text: "BlackJack" },
+      { value: "Minesweeper", text: "Minesweeper" }
+    ];
     return (
-      <div>
-        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-          <Field
-            label="Game name"
-            name="gamename"
-            component={this.renderField}
-          />
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
+      <div className="row">
+        <div className="col-md-8">
+          <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+            <Field
+              name="gametype"
+              component={this.renderSelectField}
+              label="Game Type"
+            >
+              {mySelectOptions.map(option => (
+                <option value={option.value} key={option.value}>
+                  {option.text}
+                </option>
+              ))}
+            </Field>
+            <Field
+              label="Game Label"
+              name="gamename"
+              component={this.renderField}
+            />
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
@@ -48,7 +90,13 @@ class NewGame extends Component {
 function validate(values) {
   const errors = {};
 
-  if (!values.gamename) errors.gamename = "Enter an game name";
+  if (!values.gamename) {
+    errors.gamename = "Enter an Game Label";
+  } else {
+    if (values.gamename.indexOf("-") > -1)
+      errors.gamename = "No dashes allowed in Game Label";
+  }
+  if (!values.gametype) errors.gametype = "Select a Game Type";
 
   return errors;
 }

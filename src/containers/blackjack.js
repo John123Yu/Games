@@ -10,7 +10,6 @@ class BlackJackPane extends Component {
     super(props);
 
     setImmediate(() => {
-      console.log("yserbane", this.props.username);
       this.props.emitJoinBlackJack(this.props.username);
     });
   }
