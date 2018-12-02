@@ -38,6 +38,7 @@ class Login extends Component {
         if (token) {
           this.props.socialLogin(user, token);
           Cookie.set("jwt", token, { expires: 1 });
+          //eventually remove this second cookie set since the jwt should include the username in the payload
           Cookie.set("username", user.username, { expires: 1 });
         }
       });

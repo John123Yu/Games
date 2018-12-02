@@ -12,13 +12,14 @@ export const FETCH_USERS = "FETCH_USERS";
 export const SOCIAL_LOGIN = "SOCIAL_LOGIN";
 export const LOGOUT = "LOGOUT";
 export const SET_ITEMID = "SET_ITEMID";
-export const SETUP_SOCKET = "SETUP_SOCKET";
-export const SOCKET_CONNECT = "SOCKET_CONNECT";
+export const SOCKET_CONNECT_BLACKJACK = "SOCKET_CONNECT_BLACKJACK";
+export const SOCKET_CONNECT_GOFISH = "SOCKET_CONNECT_GOFISH";
+
 export const EMIT_MESSAGE = "EMIT_MESSAGE";
-export const EMIT_JOIN_BLACKJACK = "EMIT_JOIN_BLACKJACK";
 export const EMIT_START_BLACKJACK = "EMIT_START_BLACKJACK";
 export const FETCH_GAMES = "FETCH_GAMES";
 export const FETCH_GAME = "FETCH_GAME";
+export const SOCKET_CONNECT_MESSAGES = "SOCKET_CONNECT_MESSAGES";
 
 //-----------USERS-------------------------------------------------//
 export function register(user, callback) {
@@ -78,28 +79,38 @@ export function newGame(game, callback) {
 }
 //-----------GAMES-------------------------------------------------//
 //-----------Socket-------------------------------------------------//
-export function socketConnect(id) {
+export function socketConnectBlackJack(id) {
   return {
-    type: SOCKET_CONNECT,
+    type: SOCKET_CONNECT_BLACKJACK,
     payload: id
   };
 }
+export function socketConnectMessages(id) {
+  return {
+    type: SOCKET_CONNECT_MESSAGES,
+    payload: id
+  };
+}
+export function socketConnectGoFish(id) {
+  return {
+    type: SOCKET_CONNECT_GOFISH,
+    payload: id
+  };
+}
+//-----------Socket-------------------------------------------------//
+//-----------Messages-------------------------------------------------//
 export function emitMessage(obj) {
   return {
     type: EMIT_MESSAGE,
     payload: obj
   };
 }
-export function emitJoinBlackJack(object) {
-  return {
-    type: EMIT_JOIN_BLACKJACK,
-    payload: object
-  };
-}
+//-----------Messages-------------------------------------------------//
+//-----------BlackJack-------------------------------------------------//
 export function emitStartBlackJack(obj) {
   return {
     type: EMIT_START_BLACKJACK,
     payload: ""
   };
 }
-//-----------Sockets-------------------------------------------------//
+//-----------BlackJacks-------------------------------------------------//

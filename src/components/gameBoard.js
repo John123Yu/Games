@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 
 import BlackJack from "./blackjack";
+import { withRouter } from "react-router-dom";
 
-export default class GameBoard extends Component {
+class GameBoard extends Component {
   constructor(props) {
     super(props);
     let { match } = props;
     this.gametype = match.url.split("/")[2];
     this.gameId = match.url.split("/")[3];
+    console.log(match);
   }
   render() {
-    console.log(this.gametype);
     if (this.gametype === "BlackJack") {
       return (
         <div>
@@ -20,3 +21,5 @@ export default class GameBoard extends Component {
     }
   }
 }
+
+module.exports = withRouter(GameBoard);

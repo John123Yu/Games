@@ -1,16 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { emitJoinBlackJack, emitStartBlackJack } from "../actions/index";
+import { emitStartBlackJack, socketConnectBlackJack } from "../actions/index";
 import Rx from "rx";
-const images = "./src/static/images/cards-png/";
+import Cookie from "js-cookie";
+
+import { makeId } from "../helpers/index";
+const images = "../../src/static/images/cards-png/";
+
+let username = Cookie.get("username");
 
 class BlackJackPane extends Component {
   constructor(props) {
     super(props);
 
-    setImmediate(() => {
-      this.props.emitJoinBlackJack(this.props.username);
+    !username ? (username = "Anonymous" + makeId(5)) : null;
+    this.props.socketConnectBlackJack({
+      id: this.props.gameId,
+      username
     });
   }
 
@@ -125,7 +132,7 @@ function mapStateToProps({ username, hand, dealer, opponents }) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      emitJoinBlackJack,
+      socketConnectBlackJack,
       emitStartBlackJack
     },
     dispatch

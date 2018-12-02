@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import ChatPane from "../containers/chat_pane";
+import ChatPane from "../containers/messages";
 import BlackJackPane from "../containers/blackjack";
 
 export default class BlackJack extends Component {
@@ -12,7 +12,7 @@ export default class BlackJack extends Component {
     return (
       <div>
         <ChatPane gameId={this.gameId} />
-        <BlackJackPane />
+        <BlackJackPane gameId={this.gameId} />
       </div>
     );
   }

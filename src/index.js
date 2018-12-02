@@ -2,9 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
-import ReduxPromise from "redux-promise";
-import createMySocketMiddleware from "./middleware/socket";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import ReduxPromise from "redux-promise";
+import blackjackSocketMiddleware from "./middleware/blackJackSocket";
+import messagesSocketMiddleware from "./middleware/messagesSocket";
+import goFishSocketMiddleware from "./middleware/goFishSocket";
 
 // import BlackJack from "./components/blackJack";
 import Register from "./containers/register";
@@ -20,7 +22,9 @@ import reducers from "./reducers";
 
 const createStoreWithMiddleware = applyMiddleware(
   ReduxPromise,
-  createMySocketMiddleware()
+  messagesSocketMiddleware(),
+  blackjackSocketMiddleware(),
+  goFishSocketMiddleware()
 )(createStore);
 
 ReactDOM.render(

@@ -44,7 +44,6 @@ class NewGame extends Component {
     </div>
   );
   onSubmit(values) {
-    console.log(values);
     this.props.newGame(values, () => {
       this.props.history.push("/games");
     });

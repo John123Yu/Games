@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { socketConnect, emitMessage } from "../actions/index";
+import { socketConnectMessages, emitMessage } from "../actions/index";
 import Rx from "rx";
 import moment from "moment";
-import { withRouter } from "react-router-dom";
 import Cookie from "js-cookie";
+
+import { makeId } from "../helpers/index";
 
 let username = Cookie.get("username");
 
@@ -13,10 +14,8 @@ class ChatPane extends Component {
   constructor(props) {
     super(props);
 
-    if (!username) {
-      username = "Anonymous" + makeid(5);
-    }
-    this.props.socketConnect({
+    !username ? (username = "Anonymous" + makeId(5)) : null;
+    this.props.socketConnectMessages({
       id: this.props.gameId,
       username
     });
@@ -119,21 +118,10 @@ function mapStateToProps({ username, messages, user }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ socketConnect, emitMessage }, dispatch);
+  return bindActionCreators({ socketConnectMessages, emitMessage }, dispatch);
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(ChatPane));
-
-function makeid(range) {
-  var text = "";
-  var possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < range; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
-}
+)(ChatPane);
