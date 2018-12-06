@@ -1,5 +1,4 @@
-import { serverIoUrl } from "../config";
-import io from "socket.io-client";
+import { getCards, createMyWebsocket } from "../helpers/index";
 
 import { SOCKET_CONNECT_GOFISH } from "../actions/index";
 
@@ -23,17 +22,3 @@ const goFishSocketMiddleware = () => {
 };
 
 module.exports = goFishSocketMiddleware;
-
-function createMyWebsocket(room) {
-  let socket = io.connect(
-    `${serverIoUrl}`,
-    {
-      query: `room=${room}`,
-      resource: "socket.io"
-      // transports: ["websocket"],
-      // upgrade: false
-    }
-  );
-  console.log("socket connected to room:", room);
-  return socket;
-}

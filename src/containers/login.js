@@ -8,7 +8,7 @@ import { socialLogin, logout } from "../actions/index";
 import { Link } from "react-router-dom";
 import Cookie from "js-cookie";
 
-const ROOT_URL = "http://localhost:4040/api/auth";
+const { serverIoUrl } = require("../config");
 
 class Login extends Component {
   constructor() {
@@ -32,9 +32,11 @@ class Login extends Component {
       mode: "cors",
       cache: "default"
     };
-    fetch(`${ROOT_URL}/${url}`, options).then(r => {
+    console.log(`${serverIoUrl}/api/auth/${url}`);
+    fetch(`${serverIoUrl}/api/auth/${url}`, options).then(r => {
       const token = r.headers.get("x-auth-token");
       r.json().then(user => {
+        console.log(user);
         if (token) {
           this.props.socialLogin(user, token);
           Cookie.set("jwt", token, { expires: 1 });

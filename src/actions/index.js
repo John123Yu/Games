@@ -14,12 +14,14 @@ export const LOGOUT = "LOGOUT";
 export const SET_ITEMID = "SET_ITEMID";
 export const SOCKET_CONNECT_BLACKJACK = "SOCKET_CONNECT_BLACKJACK";
 export const SOCKET_CONNECT_GOFISH = "SOCKET_CONNECT_GOFISH";
-
+export const SOCKET_CONNECT_WAR = "SOCKET_CONNECT_WAR";
 export const EMIT_MESSAGE = "EMIT_MESSAGE";
 export const EMIT_START_BLACKJACK = "EMIT_START_BLACKJACK";
 export const FETCH_GAMES = "FETCH_GAMES";
 export const FETCH_GAME = "FETCH_GAME";
 export const SOCKET_CONNECT_MESSAGES = "SOCKET_CONNECT_MESSAGES";
+export const EMIT_HIT_WAR = "EMIT_HIT_WAR";
+export const EMIT_START_WAR = "EMIT_START_WAR";
 
 //-----------USERS-------------------------------------------------//
 export function register(user, callback) {
@@ -97,6 +99,12 @@ export function socketConnectGoFish(id) {
     payload: id
   };
 }
+export function socketConnectWar(id) {
+  return {
+    type: SOCKET_CONNECT_WAR,
+    payload: id
+  };
+}
 //-----------Socket-------------------------------------------------//
 //-----------Messages-------------------------------------------------//
 export function emitMessage(obj) {
@@ -114,3 +122,17 @@ export function emitStartBlackJack(obj) {
   };
 }
 //-----------BlackJacks-------------------------------------------------//
+//---------War-------------------------------------------------//
+export function emitHitWar() {
+  return {
+    type: EMIT_HIT_WAR,
+    payload: null
+  };
+}
+export function emitStartWar() {
+  return {
+    type: EMIT_START_WAR,
+    payload: null
+  };
+}
+//----------War-------------------------------------------------//

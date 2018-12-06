@@ -1,3 +1,6 @@
+import { serverIoUrl } from "../config";
+import io from "socket.io-client";
+
 let makeId = range => {
   var text = "";
   var possible =
@@ -22,4 +25,17 @@ let getCards = (players, name) => {
   return return_;
 };
 
-module.exports = { makeId, getCards };
+let createMyWebsocket = room => {
+  let socket = io.connect(
+    `${serverIoUrl}`,
+    {
+      query: `room=${room}`,
+      resource: "socket.io"
+      // transports: ["websocket"],
+      // upgrade: false
+    }
+  );
+  console.log("socket connected to room:", room);
+  return socket;
+};
+module.exports = { makeId, getCards, createMyWebsocket };

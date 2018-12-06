@@ -1,5 +1,4 @@
-import { serverIoUrl } from "../config";
-import io from "socket.io-client";
+import { createMyWebsocket } from "../helpers/index";
 
 import {
   CLEAR_MESSAGES,
@@ -50,17 +49,3 @@ const messagesSocketMiddleware = () => {
 };
 
 module.exports = messagesSocketMiddleware;
-
-function createMyWebsocket(room) {
-  let socket = io.connect(
-    `${serverIoUrl}`,
-    {
-      query: `room=${room}`,
-      resource: "socket.io"
-      // transports: ["websocket"],
-      // upgrade: false
-    }
-  );
-  console.log("socket connected to room:", room);
-  return socket;
-}

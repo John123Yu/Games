@@ -18,6 +18,12 @@ class GameBoard extends Component {
           <BlackJack gameId={this.gameId} />
         </div>
       );
+    } else if (this.gametype === "War") {
+      return (
+        <div>
+          <War gameId={this.gameId} />
+        </div>
+      );
     }
   }
 }
